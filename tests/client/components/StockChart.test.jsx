@@ -11,16 +11,16 @@ import TestUtils from 'react-addons-test-utils';
 // 'configureStore';
 
 /*----------Components----------*/
-import Application from 'Application';
+import {StockChart} from 'StockChart';
 
-describe('Application', () => {
+describe('StockChart', () => {
   it('should exist', () => {
-    expect(Application).toExist();
+    expect(StockChart).toExist();
   });
 
   it('should render without errors', () => {
     try {
-      let app = TestUtils.renderIntoDocument(<Application />);
+      TestUtils.renderIntoDocument(<StockChart />);
     } catch (error) {
       expect(error).toNotExist();
     }

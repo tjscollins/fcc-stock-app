@@ -2,7 +2,10 @@
 import React from 'react';
 
 /*----------Components----------*/
-
+import ChartControls from 'ChartControls';
+import Footer from 'Footer';
+import StockCards from 'StockCards';
+import StockChart from 'StockChart';
 
 export class Index extends React.Component {
   constructor() {
@@ -12,19 +15,11 @@ export class Index extends React.Component {
     return (
       <div>
         <div className='container'>
-          <img src='/public/img/clementine_150.png' />
-          <br />
-          <p className='clementine-text'>MERN Template</p>
+          <ChartControls />
+          <StockChart />
+          <StockCards />
         </div>
-
-        <div className='container'>
-          <p>You have clicked the button <span id='click-nbr' /> times.</p>
-          <br />
-          <div className='btn-container'>
-            <button type='submit' className='btn btn-add'>CLICK ME!</button>
-            <button className='btn btn-delete'>RESET</button>
-          </div>
-        </div>
+        <Footer />
       </div>
     );
   }

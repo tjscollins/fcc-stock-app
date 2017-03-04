@@ -11,16 +11,16 @@ import TestUtils from 'react-addons-test-utils';
 // 'configureStore';
 
 /*----------Components----------*/
-import Application from 'Application';
+import {ChartControls} from 'ChartControls';
 
-describe('Application', () => {
+describe('ChartControls', () => {
   it('should exist', () => {
-    expect(Application).toExist();
+    expect(ChartControls).toExist();
   });
 
   it('should render without errors', () => {
     try {
-      let app = TestUtils.renderIntoDocument(<Application />);
+      TestUtils.renderIntoDocument(<ChartControls />);
     } catch (error) {
       expect(error).toNotExist();
     }

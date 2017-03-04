@@ -11,16 +11,16 @@ import TestUtils from 'react-addons-test-utils';
 // 'configureStore';
 
 /*----------Components----------*/
-import Application from 'Application';
+import {Footer} from 'Footer';
 
-describe('Application', () => {
+describe('Footer', () => {
   it('should exist', () => {
-    expect(Application).toExist();
+    expect(Footer).toExist();
   });
 
   it('should render without errors', () => {
     try {
-      let app = TestUtils.renderIntoDocument(<Application />);
+      TestUtils.renderIntoDocument(<Footer />);
     } catch (error) {
       expect(error).toNotExist();
     }
