@@ -1,7 +1,7 @@
 {
-  "name": "mern-template",
-  "version": "1.0.0",
-  "description": "A React-Redux fork of Clementinejs-FCC with Gulp building and Karma/Mocha unit testing",
+  "name": "fcc-stock-app",
+  "version": "0.0.1",
+  "description": "A SPA for viewing tracking stock performance",
   "main": "server.js",
   "repository": {
     "type": "git",

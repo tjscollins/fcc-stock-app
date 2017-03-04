@@ -1,4 +1,4 @@
-MERN Template - based on Clementine.js
+FCC Stock App - based on MERN Template
 Copyright (c) 2017 Tyler Collins. All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
