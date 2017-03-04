@@ -8,6 +8,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 
 const app = express();
+
 require('dotenv').load();
 require('./server/config/passport').default(passport);
 
@@ -31,9 +32,13 @@ app.use(passport.session());
 routes(app, passport);
 
 const port = process.env.PORT || /* istanbul ignore next: no need to test */ 8080;
-app.listen(port, function() {
-  console.log('Node.js listening on port ' + port + '...');
-});
+// app.listen(port, function() {
+//   console.log('Node.js listening on port ' + port + '...');
+// });
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+io.on('connection', require('./server/config/socketIO'));
+server.listen(port);
 
 module.exports = {
   app,
