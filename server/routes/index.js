@@ -1,6 +1,8 @@
 'use strict';
 /*eslint-disable require-jsdoc*/
 
+const StockDataModel = require('../models/stocks');
+
 const path = process.cwd();
 
 module.exports = function(app, passport) {
@@ -24,26 +26,32 @@ module.exports = function(app, passport) {
   app
     .route('/stocks')
     .get((req, res) => {
-      let stock = {
-        sym: 'SYM',
-        data: [
-          [
-            1, 1,
-          ],
-          [
-            2, 1,
-          ],
-          [
-            3, 2,
-          ],
-        ],
-        desc: 'A new company'
-      };
-      res
-        .status(200)
-        .send({stocks: [stock]});
+      StockDataModel
+        .find({})
+        .then((stocks) => {
+          res
+            .status(200)
+            .send({stocks});
+          })
+        .catch((err) => {
+          console.log(err);
+        });
     })
-    .post();
+    .post((req, res) => {
+      let stock = new StockDataModel(req.body.stock);
+      stock
+        .save()
+        .then(() => {
+          StockDataModel
+            .find({})
+            .then((stocks) => {
+              // console.log(stocks);
+              res
+              .status(200)
+              .send({stocks});
+            });
+        });
+    });
 
   // app
   //   .route('/login')

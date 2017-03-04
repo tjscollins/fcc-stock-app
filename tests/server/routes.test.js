@@ -2,7 +2,15 @@
 const expect = require('expect');
 const request = require('supertest');
 
+const {populateServer} = require('./seed');
+const StockData = require('../../server/models/stocks');
+
 const {app} = require('./../../server.js');
+
+
+beforeEach((done) => {
+  populateServer(done);
+});
 
 describe('Server Routes', () => {
   describe('/', () => {
@@ -22,7 +30,7 @@ describe('Server Routes', () => {
   });
 
   describe('/stocks', () => {
-    describe.only('GET', () => {
+    describe('GET', () => {
       it('should return a list of stockData objects', (done) => {
         request(app)
           .get('/stocks')
@@ -32,11 +40,11 @@ describe('Server Routes', () => {
             if (err)
               return done(err);
             let {stocks} = res.body;
-            expect(stocks.length).toBe(1);
-            expect(stocks[0].sym).toExist();
+            expect(stocks.length).toBe(2);
+            expect(stocks[0].sym).toBe('SYM');
             expect(stocks[0].data).toExist();
             expect(Array.isArray(stocks[0].data)).toBe(true);
-            expect(stocks[0].desc).toExist();
+            expect(stocks[0].desc).toBe('A new company');
             done();
           });
       });
@@ -45,7 +53,7 @@ describe('Server Routes', () => {
     describe('POST', () => {
       it('should add a stockData object and return the updated list of stockData objects', (done) => {
         let stock = {
-          sym: 'SYM',
+          sym: 'NEW',
           data: [
             [
               1, 1,
@@ -57,7 +65,7 @@ describe('Server Routes', () => {
               3, 2,
             ],
           ],
-          desc: 'A new company'
+          desc: 'A newest company'
         };
         request(app)
           .post('/stocks')
@@ -67,11 +75,11 @@ describe('Server Routes', () => {
             if (err)
               return done(err);
             let {stocks} = res.body;
-            expect(stocks.length).toBe(2);
-            expect(stocks[0].sym).toExist();
-            expect(stocks[0].data).toExist();
+            expect(stocks.length).toBe(3);
+            expect(stocks[2].sym).toBe('NEW');
+            expect(stocks[2].data).toExist();
             expect(Array.isArray(stocks[0].data)).toBe(true);
-            expect(stocks[0].desc).toExist();
+            expect(stocks[2].desc).toBe('A newest company');
             done();
           });
       });

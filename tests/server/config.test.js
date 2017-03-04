@@ -9,10 +9,6 @@ const {users, populateServer} = require('./seed');
 require('dotenv').load('../../.env');
 require('../../server/config/passport').default(passport);
 
-beforeEach((done) => {
-  populateServer(done);
-});
-
 describe('Passport Configuration', () => {
   it('should register a GITHUB STRATEGY', () => {
     let {github} = passport._strategies;
