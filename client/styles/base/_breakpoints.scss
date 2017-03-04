@@ -1,0 +1,22 @@
+/**
+ * Breakpoints Based on Bootstrap v3
+ */
+@mixin for-phone-only {
+  // Bootstrap Size: xs
+  @media (max-width: $phone-screen) { @content; }
+}
+@mixin for-tablet-portrait-up {
+  // Bootstrap Size: sm
+  @media (min-width: $tblt-port) { @content; }
+}
+@mixin for-tablet-landscape-up {
+  // Bootstrap Size: md
+  @media (min-width: $tblt-land) { @content; }
+}
+@mixin for-desktop-up {
+  // Bootstrap Size: lg
+  @media (min-width: $desktop) { @content; }
+}
+@mixin for-big-desktop-up {
+  @media (min-width: $big-desktop) { @content; }
+}
