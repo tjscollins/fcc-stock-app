@@ -1,0 +1,20 @@
+.chartbox {
+  @include for-phone-only {
+    width: 100vw;
+  }
+  @include for-tablet-portrait-up {
+    width: 90vw;
+    margin-left: 5%;
+  }
+  @include for-tablet-landscape-up {
+    width: 80vw;
+    margin-left: 10%;
+  }
+  margin-top: 15%;
+  background-color: #222;
+  color: #aaa;
+
+  h1 {
+    text-align: center;
+  }
+}

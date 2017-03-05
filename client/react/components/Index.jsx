@@ -14,7 +14,8 @@ export class Index extends React.Component {
   render() {
     return (
       <div>
-        <div className='container'>
+        <div className='chartbox'>
+          <h1>{'Stock Chart'}</h1>
           <ChartControls />
           <StockChart />
           <StockCards />
