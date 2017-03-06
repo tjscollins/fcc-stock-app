@@ -7,12 +7,11 @@ const StockData = require('../../server/models/stocks');
 
 const {app} = require('./../../server.js');
 
-
-beforeEach((done) => {
-  populateServer(done);
-});
-
 describe('Server Routes', () => {
+  beforeEach((done) => {
+    populateServer(done);
+  });
+
   describe('/', () => {
     describe('GET', () => {
       it('should respond with success 200', (done) => {
