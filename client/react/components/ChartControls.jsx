@@ -21,7 +21,7 @@ export class ChartControls extends React.Component {
           </p>
         </div>
         <div className='date-range'>
-          <p>
+          <p>From
             <input />
             to
             <input />
