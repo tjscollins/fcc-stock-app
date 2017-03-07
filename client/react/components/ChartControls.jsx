@@ -27,9 +27,9 @@ export class ChartControls extends React.Component {
         </div>
         <div className='date-range'>
           <p>From
-            <input type='date' value={[lastYear, currentMonth, currentDate].join('-')} />
+            <input type='date' defaultValue={[lastYear, currentMonth, currentDate].join('-')} />
             to
-            <input type='date' value={[currentYear, currentMonth, currentDate].join('-')} />
+            <input type='date' defaultValue={[currentYear, currentMonth, currentDate].join('-')} />
           </p>
         </div>
       </div>

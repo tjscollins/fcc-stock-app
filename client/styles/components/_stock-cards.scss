@@ -4,21 +4,23 @@
 }
 
 .info-card {
-  width           : 250px;
-  height          : 100px;
-  margin          : 15px;
-  border          : 1px solid grey;
-  border-left     : 5px solid grey;
-  background-color: white;
 
   &:hover {
     border-color     : pink;
     border-left-color: pink;
   }
+  
+  width           : 250px;
+  height          : 100px;
+  margin          : 15px;
+  border          : 1px solid grey;
+  border-left     : 5px solid grey;
+  background-color: white
 }
 
 .search-card {
   @extend .info-card;
+
   &:hover {
     border-color     : green;
     border-left-color: green;
@@ -54,5 +56,5 @@
     color           : white;
   }
   border-color     : green;
-  border-left-color: green
+  border-left-color: green;
 }
