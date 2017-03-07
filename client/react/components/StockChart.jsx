@@ -7,9 +7,15 @@ export class StockChart extends React.Component {
   constructor() {
     super();
   }
+  componentDidMount() {
+    // Use d3 to generate a graph
+  }
+  componentWillReceiveProps(nextProps) {
+    // Decide whether to re-generate the graph
+  }
   render() {
     return (
-      <div />
+      <div className='graph-box' />
     );
   }
 }
