@@ -8,6 +8,11 @@ export class ChartControls extends React.Component {
     super();
   }
   render() {
+    let today = new Date();
+    let [currentYear, currentMonth, currentDate] = [today.getFullYear(), today.getMonth() + 1, today.getDate()];
+    currentMonth = currentMonth > 9 ? currentMonth : '0' + currentMonth;
+    currentDate = currentDate > 9 ? currentDate : '0' + currentDate;
+    let lastYear = currentYear - 1;
     return (
       <div className='chart-controls'>
         <div className='time-buttons'>
@@ -22,9 +27,9 @@ export class ChartControls extends React.Component {
         </div>
         <div className='date-range'>
           <p>From
-            <input />
+            <input type='date' value={[lastYear, currentMonth, currentDate].join('-')} />
             to
-            <input />
+            <input type='date' value={[currentYear, currentMonth, currentDate].join('-')} />
           </p>
         </div>
       </div>
