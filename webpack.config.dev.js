@@ -58,7 +58,7 @@ module.exports = {
     './client/react/react-app.jsx',
   ],
   externals: {
-    jquery: 'jQuery',
+    // jquery: 'jQuery',
   },
   plugins: [
     new webpack.ProvidePlugin({'$': 'jquery', 'jQuery': 'jquery', 'jquery': 'jquery'}),

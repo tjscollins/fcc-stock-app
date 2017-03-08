@@ -7,8 +7,8 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
 /*----------Redux----------*/
-// import {Provider} from 'react-redux';
-// import {configure} from 'configureStore';
+import {Provider} from 'react-redux';
+import configureStore from 'configureStore';
 
 /*----------Components----------*/
 import {Index} from 'Index';
@@ -20,7 +20,11 @@ describe('Index', () => {
 
   it('should render without errors', () => {
     try {
-      TestUtils.renderIntoDocument(<Index />);
+      TestUtils.renderIntoDocument(
+        <Provider store={configureStore()}>
+          <Index />
+        </Provider>
+      );
     } catch (error) {
       expect(error).toNotExist();
     }
