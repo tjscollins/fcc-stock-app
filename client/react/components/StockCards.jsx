@@ -1,5 +1,7 @@
 /*----------Modules----------*/
 import React from 'react';
+import {connect} from 'react-redux';
+import $ from 'jquery';
 
 /*----------Components----------*/
 
@@ -21,6 +23,27 @@ export class StockCards extends React.Component {
   submit(e) {
     e.preventDefault();
     // Make API Call for new stock and update state with result
+    let {startDate, endDate} = this.props;
+    let data = JSON.stringify({
+      sym: this.refs.sym.value,
+      start: startDate,
+      end: endDate,
+    });
+    let request = {
+      method: 'GET',
+      url: '/stocks',
+      data,
+      contentType: 'application/json',
+      dataType: 'json',
+    };
+    $
+      .ajax(request)
+      .done((stock) => {
+        dispatch(actions.addStockDisplay(stock.sym, stock.desc, stock.data));
+      })
+      .fail((error) => {
+        console.error(error);
+      });
   }
   render() {
     return (
@@ -32,7 +55,7 @@ export class StockCards extends React.Component {
             <label>
               Search for stocks:
             </label>
-            <input type='text' />
+            <input ref='sym' type='text' />
             <button type='submit'>Add</button>
           </form>
         </div>
@@ -41,4 +64,9 @@ export class StockCards extends React.Component {
   }
 }
 
-export default StockCards;
+StockCards.propTypes = {
+  startDate: React.PropTypes.string,
+  endDate: React.PropTypes.string,
+};
+
+export default connect((state) => state.settings)(StockCards);
