@@ -47,7 +47,15 @@ module.exports = function(app, passport) {
         httpResponse.on('data', (chunk) => {
           rawData += chunk;
         });
-        httpResponse.on('end', () => {
+        httpResponse.on('end', processRequest);
+        function compareStockDates(a, b) {
+          if (a[0] < b[0])
+            return -1;
+          if (a[0] > b[0])
+            return 1;
+          return 0;
+        }
+        function processRequest() {
           data = Object.assign(JSON.parse(rawData).query, {sym});
           // res   .status(200)   .send(data);
           StockDataModel
@@ -66,13 +74,7 @@ module.exports = function(app, passport) {
               if (stock) {
                 try {
                   priceData = priceData.concat(stock.data);
-                  priceData.sort((a, b) => {
-                    if (a[0] < b[0])
-                      return -1;
-                    if (a[0] > b[0])
-                      return 1;
-                    return 0;
-                  });
+                  priceData.sort(compareStockDates);
                   priceData = priceData.filter((datum, i) => {
                     return i === priceData.length - 1
                       ? true
@@ -92,7 +94,11 @@ module.exports = function(app, passport) {
                 }
               } else {
                 // console.log('Creating newStock from: ', sym, priceData);
-                let newStock = new StockDataModel({sym: data.sym, data: priceData, desc: ''});
+                let newStock = new StockDataModel({
+                  sym: data.sym,
+                  data: priceData.sort(compareStockDates),
+                  desc: '',
+                });
                 newStock
                   .save()
                   .then((stock) => {
@@ -101,22 +107,6 @@ module.exports = function(app, passport) {
                       .send(stock);
                   });
               }
-            });
-        });
-        function processRequest() {
-          data = JSON.parse(rawData);
-          let stock = new StockDataModel(data);
-          stock
-            .save()
-            .then(() => {
-              StockDataModel
-                .find({})
-                .then((stocks) => {
-                  // console.log(stocks);
-                  res
-                    .status(200)
-                    .send({stocks});
-                });
             });
         }
       });
