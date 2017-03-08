@@ -50,35 +50,18 @@ describe('Server Routes', () => {
     });
 
     describe('POST', () => {
-      it('should add a stockData object and return the updated list of stockData objects', (done) => {
-        let stock = {
-          sym: 'NEW',
-          data: [
-            [
-              1, 1,
-            ],
-            [
-              2, 1,
-            ],
-            [
-              3, 2,
-            ],
-          ],
-          desc: 'A newest company'
-        };
+      it('make a query to yahooapis and convey the response to the client', (done) => {
+        let [symbol, start, end] = ['GOOGL', '2016-01-01', '2017-01-01'];
         request(app)
           .post('/stocks')
-          .send({stock})
+          .send({sym: symbol, start, end})
           .expect(200)
           .end((err, res) => {
             if (err)
               return done(err);
-            let {stocks} = res.body;
-            expect(stocks.length).toBe(3);
-            expect(stocks[2].sym).toBe('NEW');
-            expect(stocks[2].data).toExist();
-            expect(Array.isArray(stocks[0].data)).toBe(true);
-            expect(stocks[2].desc).toBe('A newest company');
+            let {sym, data} = res.body;
+            expect(sym).toBe(symbol);
+            expect(Array.isArray(data)).toBe(true);
             done();
           });
       });

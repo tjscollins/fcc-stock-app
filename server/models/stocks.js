@@ -18,9 +18,7 @@ const StockData = new Schema({
     type: Array,
     validate: (data) => {
       return data.every((d) => {
-        return d.length === 2 && d.every((i) => {
-          return typeof i === 'number';
-        });
+        return d.length === 2 && typeof d[0] === 'string' && typeof d[1] === 'number';
       });
     },
   },

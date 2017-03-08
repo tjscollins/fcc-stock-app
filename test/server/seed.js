@@ -33,13 +33,13 @@ const stocks = [
     sym: 'SYM',
     data: [
       [
-        1, 1,
+        '1', 1,
       ],
       [
-        2, 1,
+      '  2', 1,
       ],
       [
-        3, 2,
+        '3', 2,
       ],
     ],
     desc: 'A new company'
@@ -48,13 +48,13 @@ const stocks = [
     sym: 'TAG',
     data: [
       [
-        1, 6,
+        '1', 6,
       ],
       [
-        2, 5,
+        '2', 5,
       ],
       [
-        3, 4,
+        '3', 4,
       ],
     ],
     desc: 'An old company'
