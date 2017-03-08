@@ -1,5 +1,6 @@
 /*----------Modules----------*/
 import React from 'react';
+import {dateFormatter} from 'api';
 
 /*----------Components----------*/
 
@@ -8,11 +9,7 @@ export class ChartControls extends React.Component {
     super();
   }
   render() {
-    let today = new Date();
-    let [currentYear, currentMonth, currentDate] = [today.getFullYear(), today.getMonth() + 1, today.getDate()];
-    currentMonth = currentMonth > 9 ? currentMonth : '0' + currentMonth;
-    currentDate = currentDate > 9 ? currentDate : '0' + currentDate;
-    let lastYear = currentYear - 1;
+    let [currentYear, currentMonth, currentDate] = dateFormatter();
     return (
       <div className='chart-controls'>
         <div className='time-buttons'>
@@ -27,9 +24,9 @@ export class ChartControls extends React.Component {
         </div>
         <div className='date-range'>
           <p>From
-            <input type='date' defaultValue={[lastYear, currentMonth, currentDate].join('-')} />
+            <input ref='start' onChange={this.changeDates} type='date' defaultValue={[currentYear - 1, currentMonth, currentDate].join('-')} />
             to
-            <input type='date' defaultValue={[currentYear, currentMonth, currentDate].join('-')} />
+            <input ref='end' onChange={this.changeDates} type='date' defaultValue={[currentYear, currentMonth, currentDate].join('-')} />
           </p>
         </div>
       </div>

@@ -3,6 +3,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import $ from 'jquery';
 
+/*----------Redux----------*/
+import * as actions from 'actions';
+
 /*----------Components----------*/
 
 export class StockCards extends React.Component {
@@ -23,14 +26,14 @@ export class StockCards extends React.Component {
   submit(e) {
     e.preventDefault();
     // Make API Call for new stock and update state with result
-    let {startDate, endDate} = this.props;
+    let {settings: {startDate, endDate}, dispatch} = this.props;
     let data = JSON.stringify({
       sym: this.refs.sym.value,
       start: startDate,
       end: endDate,
     });
     let request = {
-      method: 'GET',
+      method: 'POST',
       url: '/stocks',
       data,
       contentType: 'application/json',
@@ -39,7 +42,9 @@ export class StockCards extends React.Component {
     $
       .ajax(request)
       .done((stock) => {
+        console.log(stock);
         dispatch(actions.addStockDisplay(stock.sym, stock.desc, stock.data));
+        this.refs.sym.value = '';
       })
       .fail((error) => {
         console.error(error);
@@ -51,7 +56,7 @@ export class StockCards extends React.Component {
         {this.createStockCards()}
         <div className='search-card'>
 
-          <form onSubmit={this.submit}>
+          <form onSubmit={this.submit.bind(this)}>
             <label>
               Search for stocks:
             </label>
@@ -65,8 +70,8 @@ export class StockCards extends React.Component {
 }
 
 StockCards.propTypes = {
-  startDate: React.PropTypes.string,
-  endDate: React.PropTypes.string,
+  settings: React.PropTypes.object,
+  dispatch: React.PropTypes.func,
 };
 
-export default connect((state) => state.settings)(StockCards);
+export default connect((state) => state)(StockCards);

@@ -70,7 +70,7 @@ module.exports = {
   resolve: {
     root: __dirname,
     modulesDirectories: [
-      'node_modules', './client/react/', './client/react/components/', './client/redux',
+      'node_modules', './client/', './client/react/', './client/react/components/', './client/redux',
     ],
     alias: {
       applicationStyles: 'client/styles/main.scss',
@@ -84,5 +84,5 @@ module.exports = {
     loaders,
     postLoaders,
   },
-  devtool: 'inline-source-map',
+  devtool: 'eval-source-map',
 };

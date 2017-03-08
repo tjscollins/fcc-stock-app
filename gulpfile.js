@@ -35,7 +35,7 @@ const del = require('del');
 const CLIENT = './client/';
 const DIST = './public/';
 const HTML = CLIENT + 'html/*.html';
-const REACT_REDUX = CLIENT + '/**/*.jsx';
+const REACT_REDUX = [CLIENT + '/**/*.jsx', CLIENT + '/redux/*.js'];
 const STYLES = CLIENT + 'styles/';
 
 // SCSS fonts
