@@ -39,8 +39,7 @@ module.exports = function(app, passport) {
     })
     .post((req, res) => {
       let {sym, start, end} = req.body;
-      let stockEndpoint = `http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22${sym}%22%20and%20startDate%20%3D%20%22${start}%22%20and%20endDate%20%3D%20%22${end}%22&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=`;
-      // console.log(stockEndpoint);
+      let stockEndpoint = `http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22${sym}%22%20and%20startDate%20%3D%20%22${start}%22%20and%20endDate%20%3D%20%22${end}%22&format=json&diagnostics=false&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=`;
       http.get(stockEndpoint, (httpResponse) => {
         let rawData = '';
         let data = {};
@@ -57,11 +56,9 @@ module.exports = function(app, passport) {
         }
         function processRequest() {
           data = Object.assign(JSON.parse(rawData).query, {sym});
-          // res   .status(200)   .send(data);
           StockDataModel
             .findOne({sym})
             .then((stock) => {
-              // console.log('Found stocks: ', stock);
               let priceData = data
                 .results
                 .quote
@@ -80,7 +77,6 @@ module.exports = function(app, passport) {
                       ? true
                       : datum[0] !== priceData[i + 1][0];
                   });
-                  // console.log('New priceData: ', priceData);
                   stock.data = priceData;
                   stock.save();
                   res
@@ -93,7 +89,6 @@ module.exports = function(app, passport) {
                     .send({err});
                 }
               } else {
-                // console.log('Creating newStock from: ', sym, priceData);
                 let newStock = new StockDataModel({
                   sym: data.sym,
                   data: priceData.sort(compareStockDates),
