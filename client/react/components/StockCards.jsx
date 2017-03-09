@@ -12,16 +12,18 @@ export class StockCards extends React.Component {
   constructor() {
     super();
   }
-  createCard(title, text) {
+  createCard(stock) {
     return (
       <div className='info-card'>
-        <h1>{title}</h1>
-        <p>{text}</p>
+        <h1>{stock.sym}</h1>
+        <p>{stock.desc}</p>
       </div>
     );
   }
   createStockCards() {
     // get loaded stocks from state and create info cards
+    let {stocks: {list}} = this.props;
+    return list.map(this.createCard);
   }
   submit(e) {
     e.preventDefault();
@@ -54,8 +56,8 @@ export class StockCards extends React.Component {
     return (
       <div className='stock-cards'>
         {this.createStockCards()}
-        <div className='search-card'>
 
+        <div className='search-card'>
           <form onSubmit={this.submit.bind(this)}>
             <label>
               Search for stocks:
@@ -72,6 +74,7 @@ export class StockCards extends React.Component {
 StockCards.propTypes = {
   settings: React.PropTypes.object,
   dispatch: React.PropTypes.func,
+  stocks: React.PropTypes.object,
 };
 
 export default connect((state) => state)(StockCards);

@@ -1,21 +1,23 @@
 .stock-cards {
-  height: 130px;
-  border: 1px solid green;
+  display        : flex;
+  flex-direction : row;
+  flex-wrap      : wrap;
+  justify-content: space-between;
+  height         : auto;
+  border         : 1px solid green;
 }
 
 .info-card {
-
   &:hover {
     border-color     : pink;
     border-left-color: pink;
   }
-  
-  width           : 250px;
+  width           : 225px;
   height          : 100px;
   margin          : 15px;
   border          : 1px solid grey;
   border-left     : 5px solid grey;
-  background-color: white
+  background-color: white;
 }
 
 .search-card {
@@ -39,6 +41,7 @@
   }
 
   input {
+    width        : 150px;
     margin-top   : 15px;
     margin-left  : 10px;
     padding      : 5px;
