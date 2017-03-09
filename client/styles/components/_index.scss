@@ -1,20 +1,22 @@
 .chartbox {
   @include for-phone-only {
     width: 100vw;
+    margin-top: 10%;
   }
   @include for-tablet-portrait-up {
     width: 90vw;
+    margin-top: 10%;
     margin-left: 5%;
   }
   @include for-tablet-landscape-up {
     width: 80vw;
+    margin-top: 5%;
     margin-left: 10%;
   }
-  margin-top: 15%;
-  background-color: #222;
-  color: #aaa;
 
   h1 {
     text-align: center;
   }
+  background-color: #222;
+  color: #aaa
 }
