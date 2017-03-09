@@ -138,7 +138,7 @@ gulp.task('watch', [
 ], () => {
   livereload.listen();
   gulp.watch(HTML, ['html']);
-  gulp.watch(REACT_REDUX, ['react-redux-dev']);
+  gulp.watch(CLIENT + '**/*', ['react-redux-dev']);
   gulp.watch(STYLES + '**/*.scss', ['styles']);
   nodemon({
     script: './server.js',

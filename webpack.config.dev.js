@@ -37,7 +37,7 @@ const loaders = [
     test: /\.jsx?$/,
     loader: 'babel-loader',
     query: {
-      presets: ['react', 'es2015', 'stage-0'],
+      presets: ['react', 'es2015', 'stage-0',]
     },
     exclude: /(node_modules|bower_components)/,
   },
@@ -70,10 +70,15 @@ module.exports = {
   resolve: {
     root: __dirname,
     modulesDirectories: [
-      'node_modules', './client/', './client/react/', './client/react/components/', './client/redux',
+      'node_modules',
+      './client',
+      './client/d3',
+      './client/react/',
+      './client/react/components/',
+      './client/redux',
     ],
     alias: {
-      applicationStyles: 'client/styles/main.scss',
+      applicationStyles: 'client/styles/main.scss'
     },
     extensions: [
       '', '.js', '.jsx',
