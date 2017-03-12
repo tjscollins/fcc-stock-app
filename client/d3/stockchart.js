@@ -54,7 +54,7 @@ function plot(params) {
       d3.isoParse(start),
       d3.isoParse(end),
     ])
-    .range([0, dimensions[0]]);
+    .range([0, dimensions[0],]);
 
   const yCoord = d3
     .scaleLinear()
@@ -66,12 +66,32 @@ function plot(params) {
         return datum[1];
       }) + 100,
     ])
-    .range([dimensions[1], 0]);
+    .range([dimensions[1], 0,]);
 
   const xAxis = d3.axisBottom(xCoord);
   const yAxis = d3.axisLeft(yCoord);
 
-  // this;
+  const drawLine = d3
+    .line()
+    // .interpolate('basis')
+    .x(function(d) {
+      return x_scale(d[0]);
+    })
+    .y(function(d) {
+      return y_scale(d[1]);
+    });
+
+  this
+    .selectAll('.d3-chart')
+    .data(data)
+    .enter()
+    .append('g')
+    .classed('.d3-chart', true)
+    .append('path')
+    .attr('d', (d) => {
+      return drawLine(d);
+    })
+    .attr('stroke', 'blue');
 }
 
 export default generateChart;
