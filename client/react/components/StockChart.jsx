@@ -10,12 +10,12 @@ export class StockChart extends React.Component {
     super();
   }
   componentDidMount() {
-    // Use d3 to generate a graph
-    let {stocks, settings: {startDate, endDate}} = this.props;
-    stockChart(stocks, startDate, endDate);
   }
   componentWillReceiveProps(nextProps) {
     // Decide whether to re-generate the graph
+    // Use d3 to generate a graph
+    let {stocks, settings: {startDate, endDate}} = nextProps;
+    stockChart(stocks, startDate, endDate);
   }
   render() {
     return (
