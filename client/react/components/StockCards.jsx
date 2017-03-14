@@ -14,8 +14,8 @@ export class StockCards extends React.Component {
   }
   createCard(stock) {
     return (
-      <div className='info-card'>
-        <h1>{stock.sym}</h1>
+      <div className='info-card' key={`${stock.sym}-card-key`}>
+        <h1>{stock.sym.toUpperCase()}</h1>
         <p>{stock.desc}</p>
       </div>
     );
@@ -44,7 +44,7 @@ export class StockCards extends React.Component {
     $
       .ajax(request)
       .done((stock) => {
-        console.log(stock);
+        // console.log(stock);
         dispatch(actions.addStockDisplay(stock.sym, stock.desc, stock.data));
         this.refs.sym.value = '';
       })

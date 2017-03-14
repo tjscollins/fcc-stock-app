@@ -35,7 +35,7 @@ const del = require('del');
 const CLIENT = './client/';
 const DIST = './public/';
 const HTML = CLIENT + 'html/*.html';
-const REACT_REDUX = [CLIENT + '/**/*.jsx', CLIENT + '/redux/*.js'];
+const REACT_REDUX = [CLIENT + '/**/*.jsx', CLIENT + '/**/*.js'];
 const STYLES = CLIENT + 'styles/';
 
 // SCSS fonts
@@ -138,7 +138,7 @@ gulp.task('watch', [
 ], () => {
   livereload.listen();
   gulp.watch(HTML, ['html']);
-  gulp.watch(CLIENT + '**/*', ['react-redux-dev']);
+  gulp.watch(REACT_REDUX, ['react-redux-dev']);
   gulp.watch(STYLES + '**/*.scss', ['styles']);
   nodemon({
     script: './server.js',

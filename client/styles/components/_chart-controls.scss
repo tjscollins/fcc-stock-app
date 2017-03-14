@@ -1,34 +1,51 @@
 .chart-controls {
   display        : flex;
+  align-items    : center;
   justify-content: space-between;
 }
 
 .time-buttons {
-
   p {
+    @include for-phone-only {}
+    @include for-tablet-portrait-up {
+      font-size: 14px;
+    }
     margin: 10px 5px 5px;
   }
 
   button {
     @include custom-transition($time-button-trans, $time-button-trans-func, $time-button-trans-delay);
+    @include for-phone-only {}
+    @include for-tablet-portrait-up {
+      width    : 40px;
+      font-size: 10px;
+    }
+
     &:hover {
       background: #555;
       cursor    : pointer;
     }
-    width     : 50px;
     height    : 25px;
     margin    : 5px;
     border    : none;
     background: #333;
     color     : #aaa;
   }
-  margin-left: 50px
+  margin-left: 50px;
 }
 
 .date-range {
+  @include for-phone-only {}
+  @include for-tablet-portrait-up {
+    font-size: 14px;
+  }
 
   input {
-    width     : 150px;
+    @include for-phone-only {}
+    @include for-tablet-portrait-up {
+      width    : 125px;
+      font-size: 10px;
+    }
     height    : 20px;
     margin    : -10px 10px 0;
     border    : 1px solid #555;
@@ -36,5 +53,7 @@
     color     : #aaa;
     text-align: center;
   }
-  margin-right: 50px
+  display     : flex;
+  align-items : center;
+  margin-right: 50px;
 }

@@ -11,18 +11,21 @@ import * as d3 from 'd3';
  */
 function generateChart(stocks, start, end) {
   const margin = {
-    top: 25,
-    bottom: 50,
+    top: 15,
+    bottom: 30,
     left: 50,
-    right: 25,
+    right: 15,
   };
+  const width = parseInt(d3.select('.graph-box').style('width'), 10);
+  const height = parseInt(d3.select('.graph-box').style('height'), 10);
+  // console.log('Dimensions: ', width, height);
 
   const frame = d3
     .select('#stock-chart')
     .append('svg')
     .attr('id', 'linear-chart')
-    .attr('width', 1100)
-    .attr('height', 450);
+    .attr('width', width)
+    .attr('height', height);
 
   const chart = frame
     .append('g')
@@ -34,11 +37,11 @@ function generateChart(stocks, start, end) {
     start,
     end,
     dimensions: [
-      1025, 375,
+      width - margin.left - margin.right, height - margin.top - margin.bottom,
     ],
   });
   return {};
-}
+
 
 /**
  * plot - creates the actual plot using d3
@@ -50,7 +53,7 @@ function plot(params) {
       list
     }, start, end, dimensions} = params;
   const self = this;
-  console.log('plot function called with: ', params);
+  // console.log('plot function called with: ', params);
   const parseTime = d3.timeParse('%Y-%m-%d');
 
   const [minPrice, maxPrice] = (function calcMinMaxPrice(stockList) {
@@ -64,8 +67,8 @@ function plot(params) {
         });
     });
     return [
-      Math.floor(minPrice * 0.9),
-      Math.floor(maxPrice * 1.1),
+      Math.floor(minPrice - 0.1*(maxPrice - minPrice)),
+      Math.ceil(maxPrice + 0.1*(maxPrice - minPrice)),
     ];
   })(list);
 
@@ -84,13 +87,24 @@ function plot(params) {
   const xAxis = d3.axisBottom(xCoord);
   const yAxis = d3.axisLeft(yCoord);
 
+  // Apply xAxis
+  self
+    .append('g')
+    .attr('transform', 'translate(0,' + dimensions[1] + ')')
+    // .attr('color', 'beige')
+    .call(xAxis);
+
+  // Apply yAxis
+  self
+    .append('g')
+    // .attr('transform', 'translate(' + margin.left + ', 0)')
+    .call(yAxis);
+
   const drawLine = d3.line()
     .x(function(d) {
-      // console.log('x', d, xCoord(d.date));
       return xCoord(d.date);
     })
     .y(function(d) {
-      // console.log('y', d, yCoord(d.price));
       return yCoord(d.price);
     });
 
@@ -102,8 +116,10 @@ function plot(params) {
         date: parseTime(pricePoint[0]),
         price: pricePoint[1],
       };
+    }).filter((pricePoint) => {
+      return pricePoint.date > parseTime(start) && pricePoint.date < parseTime(end);
     });
-    console.log(data);
+    // console.log(data);
     self
       .selectAll('.d3-chart')
       .data([data])
@@ -112,8 +128,10 @@ function plot(params) {
       .classed('.d3-chart', true)
       .append('path')
       .attr('d', drawLine)
-      .attr('stroke', 'blue');
+      .attr('stroke', 'black')
+      .attr('fill', 'none');
   });
+}
 }
 
 export default generateChart;

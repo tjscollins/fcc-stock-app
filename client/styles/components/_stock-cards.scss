@@ -8,9 +8,9 @@
 }
 
 .info-card {
+  @include custom-transition($info-card-trans, $info-card-trans-func, $info-card-trans-delay);
   &:hover {
-    border-color     : pink;
-    border-left-color: pink;
+    border-color     : darken(pink, 25);
   }
   width           : 225px;
   height          : 100px;
@@ -58,6 +58,6 @@
     background-color: limegreen;
     color           : white;
   }
-  border-color     : green;
-  border-left-color: green;
+  // border-color     : green;
+  // border-left-color: green;
 }
