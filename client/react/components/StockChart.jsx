@@ -1,6 +1,7 @@
 /*----------Modules----------*/
 import React from 'react';
 import {connect} from 'react-redux';
+import $ from 'jquery';
 
 /*----------Components----------*/
 import stockChart from 'stockchart';
@@ -15,6 +16,7 @@ export class StockChart extends React.Component {
     // Decide whether to re-generate the graph
     // Use d3 to generate a graph
     let {stocks, settings: {startDate, endDate}} = nextProps;
+    $('#linear-chart').remove();
     stockChart(stocks, startDate, endDate);
   }
   render() {
