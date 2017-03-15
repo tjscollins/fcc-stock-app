@@ -6,9 +6,10 @@ const Schema = mongoose.Schema;
 /**
  * StockData object that stores information about the price of a stock over time.
  *
- *    sym   -- Stock ticker symbol for the stock
- *    data  -- A 2-D array listing Date/Price pairs for the stock in chronological order
- *    desc  -- A brief description of the company
+ *    sym       -- Stock ticker symbol for the stock
+ *    data      -- A 2-D array listing Date/Price pairs for the stock in chronological order
+ *    desc      -- A brief description of the company
+ *    displayed -- A flag to indicate whether a user should display a stock on initial load
  */
 const StockData = new Schema({
   sym: {
@@ -24,6 +25,9 @@ const StockData = new Schema({
   },
   desc: {
     type: String,
+  },
+  displayed: {
+    type: Boolean,
   }
 });
 

@@ -27,7 +27,7 @@ module.exports = function(app, passport) {
     .route('/stocks')
     .get((req, res) => {
       StockDataModel
-        .find({})
+        .find({displayed: true})
         .then((stocks) => {
           res
             .status(200)
@@ -78,6 +78,7 @@ module.exports = function(app, passport) {
                       : datum[0] !== priceData[i + 1][0];
                   });
                   stock.data = priceData;
+                  stock.displayed = true;
                   stock.save();
                   res
                     .status(200)
@@ -93,6 +94,7 @@ module.exports = function(app, passport) {
                   sym: data.sym,
                   data: priceData.sort(compareStockDates),
                   desc: '',
+                  displayed: true,
                 });
                 newStock
                   .save()
@@ -105,6 +107,23 @@ module.exports = function(app, passport) {
             });
         }
       });
+    })
+    .patch((req, res) => {
+      let {sym} = req.body;
+      StockDataModel
+        .findOne({sym})
+        .then((stock) => {
+          if(!stock) {
+            res
+              .status(404)
+              .send();
+          }
+          stock.displayed = false;
+          stock.save();
+          res
+            .status(200)
+            .send({});
+        });
     });
 
   // app   .route('/login')   .get(sendIndex);

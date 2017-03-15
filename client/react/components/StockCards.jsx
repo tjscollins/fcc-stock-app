@@ -30,6 +30,20 @@ export class StockCards extends React.Component {
   dismissCard(stock) {
     let {dispatch} = this.props;
     return () => {
+      let data = JSON.stringify({
+        sym: stock.sym,
+      });
+      let request = {
+        method: 'PATCH',
+        url: '/stocks',
+        data,
+        contentType: 'application/json',
+        dataType: 'json',
+      };
+      $
+        .ajax(request)
+        .done()
+        .fail(console.error);
       dispatch(actions.removeStock(stock.sym));
     };
   }
@@ -52,7 +66,6 @@ export class StockCards extends React.Component {
     $
       .ajax(request)
       .done((stock) => {
-        // console.log(stock);
         dispatch(actions.addStockDisplay(stock.sym, stock.desc, stock.data));
         this.refs.sym.value = '';
       })
@@ -64,7 +77,6 @@ export class StockCards extends React.Component {
     return (
       <div className='stock-cards'>
         {this.createStockCards()}
-
         <div className='search-card'>
           <form onSubmit={this.submit.bind(this)}>
             <label>
