@@ -11,10 +11,12 @@ import * as actions from 'actions';
 export class StockCards extends React.Component {
   constructor() {
     super();
+    this.createCard = this.createCard.bind(this);
   }
   createCard(stock) {
     return (
       <div className='info-card' key={`${stock.sym}-card-key`}>
+        <button className='dismiss-card' onClick={this.dismissCard(stock)}>&times;</button>
         <h1>{stock.sym.toUpperCase()}</h1>
         <p>{stock.desc}</p>
       </div>
@@ -24,6 +26,12 @@ export class StockCards extends React.Component {
     // get loaded stocks from state and create info cards
     let {stocks: {list}} = this.props;
     return list.map(this.createCard);
+  }
+  dismissCard(stock) {
+    let {dispatch} = this.props;
+    return () => {
+      dispatch(actions.removeStock(stock.sym));
+    };
   }
   submit(e) {
     e.preventDefault();
