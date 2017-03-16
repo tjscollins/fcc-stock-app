@@ -112,12 +112,15 @@ function generateChart(stocks, start, end) {
     self
       .append('g')
       .attr('transform', 'translate(0,' + dimensions[1] + ')')
+      .attr('class', 'axis')
       // .attr('color', 'beige')
       .call(xAxis);
 
     // Apply yAxis
-    self.append('g')
+    self
+      .append('g')
     // .attr('transform', 'translate(' + margin.left + ', 0)')
+      .attr('class', 'axis')
       .call(yAxis);
 
     const drawLine = d3
@@ -151,7 +154,7 @@ function generateChart(stocks, start, end) {
         .classed('.d3-chart', true)
         .append('path')
         .attr('d', drawLine)
-        .attr('stroke', 'black')
+        .attr('stroke', 'white')
         .attr('fill', 'none');
     });
   }
