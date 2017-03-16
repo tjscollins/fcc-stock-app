@@ -41,7 +41,9 @@ export class StockChart extends React.Component {
   }
   render() {
     return (
-      <div id='stock-chart' className='graph-box' />
+      <div id='stock-chart' className='graph-box'>
+        <div id='tooltip' className='tooltip' style={{opacity: 0}} />
+      </div>
     );
   }
 }
