@@ -18,7 +18,6 @@ function generateChart(stocks, start, end) {
   };
   const width = parseInt(d3.select('.graph-box').style('width'), 10);
   const height = parseInt(d3.select('.graph-box').style('height'), 10);
-  // console.log('Dimensions: ', width, height);
 
   const frame = d3
     .select('#stock-chart')
@@ -32,21 +31,13 @@ function generateChart(stocks, start, end) {
     .classed('stock-graph', true)
     .attr('transform', 'translate(' + margin.left + ',' + margin.right + ')');
 
-  frame.on('mouseover', (d, i) => {
-    $('.tooltip').css('opacity', 1);
-  });
-
-  frame.on('mouseout', (d, i) => {
-    $('.tooltip').css('opacity', 0);
-  });
-
   plot.call(chart, {
     data: stocks,
     start,
     end,
     dimensions: [
       width - margin.left - margin.right,
-      height - margin.top - margin.bottom,
+      height - margin.top - margin.bottom
     ]
   });
 
@@ -69,15 +60,16 @@ function generateChart(stocks, start, end) {
         list
       }, start, end, dimensions} = params;
     const self = this;
-    // console.log('plot function called with: ', params);
     const parseTime = d3.timeParse('%Y-%m-%d');
+    const bisectDate = d3.bisector((d) => {
+      return d.date;
+    })
+      .left;
 
     const [minPrice,
-      maxPrice,
-      ] = (function calcMinMaxPrice(stockList) {
+      maxPrice] = (function calcMinMaxPrice(stockList) {
       let [minPrice,
-        maxPrice,
-        ] = [Infinity, 0];
+        maxPrice] = [Infinity, 0];
       stockList.forEach((stock) => {
         stock
           .data
@@ -88,18 +80,15 @@ function generateChart(stocks, start, end) {
       });
       return [
         Math.floor(minPrice - 0.1 * (maxPrice - minPrice)),
-        Math.ceil(maxPrice + 0.1 * (maxPrice - minPrice)),
+        Math.ceil(maxPrice + 0.1 * (maxPrice - minPrice))
       ];
     })(list);
 
-    // console.log('xCoord', parseTime, start, end, parseTime(start),
-    // parseTime(end), dimensions[0]);
     const xCoord = d3
       .scaleTime()
       .domain([parseTime(start), parseTime(end)])
       .range([0, dimensions[0]]);
 
-    // console.log('yCoord', minPrice, maxPrice, dimensions[1])
     const yCoord = d3
       .scaleLinear()
       .domain([minPrice, maxPrice])
@@ -117,8 +106,7 @@ function generateChart(stocks, start, end) {
       .call(xAxis);
 
     // Apply yAxis
-    self
-      .append('g')
+    self.append('g')
     // .attr('transform', 'translate(' + margin.left + ', 0)')
       .attr('class', 'axis')
       .call(yAxis);
@@ -156,6 +144,31 @@ function generateChart(stocks, start, end) {
         .attr('d', drawLine)
         .attr('stroke', 'white')
         .attr('fill', 'none');
+
+      let marker = self
+        .append('g')
+        .attr('class', 'marker')
+        .style('display', 'none')
+        .append('circle')
+        .attr('r', 4.5);
+
+
+        // Mouseover and movement effects
+      frame.on('mouseover', (d, i) => {
+        $('.tooltip').css('opacity', 1);
+        marker.style('display', null);
+      }).on('mouseout', (d, i) => {
+        $('.tooltip').css('opacity', 0);
+        marker.style('display', 'none');
+      }).on('mousemove', () => {
+        let x0 = xCoord.invert(d3.mouse(self)[0]);
+        let i = bisectDate(data, x0, 1);
+        let d0 = data[i-1];
+        let d1 = data[i];
+        d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+        console.log(d);
+        // marker.attr('transform', 'translate(' + xCoord(d.date) + ',' + yCoord(d.price) + ')');
+      });
     });
   }
 }
