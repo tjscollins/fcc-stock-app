@@ -148,29 +148,42 @@ function generateChart(stocks, start, end) {
       let marker = self
         .append('g')
         .attr('class', 'marker')
-        .style('display', 'none')
         .append('circle')
+        .attr('stroke', 'steelblue')
+        .attr('fill', 'steelblue')
         .attr('r', 4.5);
+      marker
+        .append('line')
+        .classed('intercept-line', true);
 
 
         // Mouseover and movement effects
       frame.on('mouseover', (d, i) => {
         $('.tooltip').css('opacity', 1);
-        marker.style('display', null);
       }).on('mouseout', (d, i) => {
         $('.tooltip').css('opacity', 0);
-        marker.style('display', 'none');
       }).on('mousemove', () => {
-        let x0 = xCoord.invert(d3.mouse(self)[0]);
+        let x0 = xCoord.invert(d3.event.pageX - 2*margin.left);
         let i = bisectDate(data, x0, 1);
         let d0 = data[i-1];
         let d1 = data[i];
-        d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-        console.log(d);
-        // marker.attr('transform', 'translate(' + xCoord(d.date) + ',' + yCoord(d.price) + ')');
+        let d = x0.valueOf() - d0.date.valueOf() > d1.date.valueOf() - x0.valueOf() ? d1 : d0;
+        marker.attr('transform', 'translate(' + (xCoord(d.date)) + ',' + (yCoord(d.price))+ ')');
+        marker
+          .select('line.intercept-line')
+          .attr('x1', xCoord(d.date))
+          .attr('x2', xCoord(d.date))
+          .attr('y1', height)
+          .attr('y2', 0)
+          .attr('stroke', 'red')
+          .attr('stroke-width', '5px');
       });
     });
   }
+}
+
+function frameMouseMoveHandler(stocks) {
+
 }
 
 export default generateChart;
