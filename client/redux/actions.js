@@ -1,6 +1,6 @@
-export const addStockDisplay = (sym, desc, data) => {
+export const updateStockData = (sym, desc, data) => {
   return {
-    type: 'ADD_STOCK_DISPLAY',
+    type: 'UPDATE_STOCK_DISPLAY',
     sym,
     desc,
     data,
@@ -14,7 +14,7 @@ export const removeStock = (sym) => {
   };
 };
 
-export const changeDates = (start, end) => {
+export const changeDates = (startDate, endDate) => {
   return {
     type: 'CHANGE_DATES',
     startDate,

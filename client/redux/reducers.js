@@ -7,9 +7,17 @@ export const reducer = (state = {}, action) => {
 
 export const stocksReducer = (state = {}, action) => {
   switch (action.type) {
-    case 'ADD_STOCK_DISPLAY':
+    case 'UPDATE_STOCK_DISPLAY':
       let {sym, desc, data} = action;
-      return {
+      let isNewStock = (function(stockSym, data) {
+        let returnValue = true;
+        state.list.forEach((stock) => {
+          if (stock.sym === stockSym
+            && data.length === stock.data.length) returnValue = false;
+        });
+        return returnValue;
+      })(sym, data);
+      return isNewStock ? {
         ...state,
         list: [
           ...state.list, {
@@ -18,7 +26,7 @@ export const stocksReducer = (state = {}, action) => {
             data,
           },
         ]
-      };
+      } : state;
     case 'REMOVE_STOCK':
       return {
         ...state,

@@ -66,7 +66,7 @@ export class StockCards extends React.Component {
     $
       .ajax(request)
       .done((stock) => {
-        dispatch(actions.addStockDisplay(stock.sym, stock.desc, stock.data));
+        dispatch(actions.updateStockData(stock.sym, stock.desc, stock.data));
         this.refs.sym.value = '';
       })
       .fail((error) => {

@@ -196,14 +196,14 @@ function generateChart(stocks, start, end) {
         tooltipTitle = `<h1>${d.date.toDateString()}</h1>`;
         toolTipData += `<div><p style="margin-left: 10px; margin-right: 20px">${stock.sym.toUpperCase()}</p> <p style="margin-right: 10px">${Math.round(d.price)}</p></div>`;
         markers[s][0].attr('transform', 'translate(' + (xCoord(d.date)) + ',' + (yCoord(d.price)) + ')');
-        markers[s][1]
-          .select('line.intercept-line')
-          .attr('x1', xCoord(d.date))
-          .attr('x2', xCoord(d.date))
-          .attr('y1', 0)
-          .attr('y2', height)
-          .attr('stroke', 'red')
-          .attr('stroke-width', '5px');
+        // markers[s][1]
+        //   .select('line.intercept-line')
+        //   .attr('x1', xCoord(d.date))
+        //   .attr('x2', xCoord(d.date))
+        //   .attr('y1', 0)
+        //   .attr('y2', height)
+        //   .attr('stroke', 'red')
+        //   .attr('stroke-width', '5px');
       });
       $('.tooltip').html(tooltipTitle + toolTipData);
     });

@@ -125,18 +125,4 @@ module.exports = function(app, passport) {
             .send({});
         });
     });
-
-  // app   .route('/login')   .get(sendIndex);
-  //
-  // app   .route('/logout')   .get(function(req, res) {     req.logout();
-  // res.redirect('/login');   }); app   .route('/profile')   .get(isLoggedIn,
-  // sendIndex);
-  //
-  // app   .route('/api/me')   .get(isLoggedIn,     /*istanbul ignore next: not
-  // sure how to fake req.isAuthenticated() for tests*/     function(req, res) {
-  // res.json(req.user.github);     }); app   .route('/auth/github')
-  // .get(passport.authenticate('github'));
-  //
-  // app   .route('/auth/github/callback')   .get(passport.authenticate('github',
-  // {     successRedirect: '/',     failureRedirect: '/login',   }));
 };
