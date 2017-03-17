@@ -14,12 +14,33 @@
 }
 
 .tooltip {
-  position  : fixed;
-  width     : 100px;
-  height    : 100px;
-  border    : 1px solid lightgreen;
-  background: transparentize(black, 0.65);
-  color     : white;
+  h1 {
+    margin   : 0 0 5px 10px;
+    font-size: 10px;
+  }
+
+  p {
+    margin-top   : 5px;
+    margin-bottom: 1px;
+    font-size    : 10px;
+  }
+
+  div {
+    display        : flex;
+    justify-content: space-between;
+    width          : 100%;
+  }
+  
+  display    : flex;
+  position   : fixed;
+  flex-wrap  : wrap;
+  align-items: stretch;
+  width      : 100px;
+  height     : auto;
+  min-height : 50px;
+  border     : 1px solid transparentize(lightgreen, 0.75);
+  background : transparentize(black, 0.65);
+  color      : white;
 }
 
 .axis {
@@ -36,5 +57,4 @@
   }
 }
 
-.intercept-line {
-}
+.intercept-line {}

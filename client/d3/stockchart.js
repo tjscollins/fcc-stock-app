@@ -45,7 +45,7 @@ function generateChart(stocks, start, end) {
     const {clientX, clientY} = e;
     $('.tooltip').each((index, node) => {
       node.style.top = (clientY - 50) + 'px';
-      node.style.left = (clientX - 110) + 'px';
+      node.style.left = (clientX - 125) + 'px';
     });
   };
   return {};
@@ -102,12 +102,11 @@ function generateChart(stocks, start, end) {
       .append('g')
       .attr('transform', 'translate(0,' + dimensions[1] + ')')
       .attr('class', 'axis')
-      // .attr('color', 'beige')
       .call(xAxis);
 
     // Apply yAxis
-    self.append('g')
-    // .attr('transform', 'translate(' + margin.left + ', 0)')
+    self
+      .append('g')
       .attr('class', 'axis')
       .call(yAxis);
 
@@ -120,6 +119,7 @@ function generateChart(stocks, start, end) {
         return yCoord(d.price);
       });
 
+    let markers = [];
     list.forEach((stock) => {
       // console.log(stock.data); Format data
       let data = stock
@@ -133,14 +133,14 @@ function generateChart(stocks, start, end) {
         .filter((pricePoint) => {
           return pricePoint.date > parseTime(start) && pricePoint.date < parseTime(end);
         });
-      // console.log(data);
+
       self
         .selectAll('.d3-chart')
         .data([data])
         .enter()
         .append('g')
-        .classed('.d3-chart', true)
         .append('path')
+        .classed('d3-chart-line', true)
         .attr('d', drawLine)
         .attr('stroke', 'white')
         .attr('fill', 'none');
@@ -152,38 +152,62 @@ function generateChart(stocks, start, end) {
         .attr('stroke', 'steelblue')
         .attr('fill', 'steelblue')
         .attr('r', 4.5);
-      marker
+      let markerLine = self
+        .append('g')
         .append('line')
+        .attr('id', `line-${stock.sym}`)
         .classed('intercept-line', true);
 
+      markers.push([marker, markerLine]);
+    });
+    // Mouseover and movement effects
+    frame.on('mouseover', (d, i) => {
+      $('.tooltip').css('opacity', 1);
+    }).on('mouseout', (d, i) => {
+      $('.tooltip').css('opacity', 0);
+    }).on('mousemove', () => {
+      let x0 = xCoord.invert(d3.event.offsetX - margin.left);
+      // let mouseDate;
+      let tooltipTitle;
+      let toolTipData = '';
 
-        // Mouseover and movement effects
-      frame.on('mouseover', (d, i) => {
-        $('.tooltip').css('opacity', 1);
-      }).on('mouseout', (d, i) => {
-        $('.tooltip').css('opacity', 0);
-      }).on('mousemove', () => {
-        let x0 = xCoord.invert(d3.event.pageX - 2*margin.left);
+      list.forEach((stock, s) => {
+        let data = stock
+          .data
+          .map((pricePoint) => {
+            return {
+              date: parseTime(pricePoint[0]),
+              price: pricePoint[1]
+            };
+          })
+          .filter((pricePoint) => {
+            return pricePoint.date > parseTime(start) && pricePoint.date < parseTime(end);
+          });
         let i = bisectDate(data, x0, 1);
-        let d0 = data[i-1];
+        let d0 = data[i - 1];
         let d1 = data[i];
-        let d = x0.valueOf() - d0.date.valueOf() > d1.date.valueOf() - x0.valueOf() ? d1 : d0;
-        marker.attr('transform', 'translate(' + (xCoord(d.date)) + ',' + (yCoord(d.price))+ ')');
-        marker
+        let d = x0.valueOf() - d0
+          .date
+          .valueOf() > d1
+          .date
+          .valueOf() - x0.valueOf()
+          ? d1
+          : d0;
+        tooltipTitle = `<h1>${d.date.toDateString()}</h1>`;
+        toolTipData += `<div><p style="margin-left: 10px; margin-right: 20px">${stock.sym.toUpperCase()}</p> <p style="margin-right: 10px">${Math.round(d.price)}</p></div>`;
+        markers[s][0].attr('transform', 'translate(' + (xCoord(d.date)) + ',' + (yCoord(d.price)) + ')');
+        markers[s][1]
           .select('line.intercept-line')
           .attr('x1', xCoord(d.date))
           .attr('x2', xCoord(d.date))
-          .attr('y1', height)
-          .attr('y2', 0)
+          .attr('y1', 0)
+          .attr('y2', height)
           .attr('stroke', 'red')
           .attr('stroke-width', '5px');
       });
+      $('.tooltip').html(tooltipTitle + toolTipData);
     });
   }
-}
-
-function frameMouseMoveHandler(stocks) {
-
 }
 
 export default generateChart;
