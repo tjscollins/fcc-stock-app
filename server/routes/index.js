@@ -125,4 +125,10 @@ module.exports = function(app, passport) {
             .send({});
         });
     });
+
+  app
+    .route('/echo/websocket')
+    .get((req, res) => {
+      res.status(101).send();
+    });
 };

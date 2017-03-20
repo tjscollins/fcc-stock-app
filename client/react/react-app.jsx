@@ -8,7 +8,7 @@ import configureStore from 'configureStore';
 
 /*----------API----------*/
 import {dateFormatter} from 'api';
-
+import WebSocket from 'ws';
 /*----------Components----------*/
 import Application from 'Application';
 
@@ -22,6 +22,17 @@ const initialState = {
     list: [],
   },
 };
+
+console.log(window.location);
+
+const ws = new WebSocket(`ws://localhost:8080/echo/websocket/`);
+ws.on('open', () => {
+  console.log('WebSocket connection open');
+  ws.send('Testing 1 2 3');
+});
+ws.on('message', (data, flags) => {
+  console.log('Message received: ', data, flags);
+});
 
 ReactDOM.render(
   <Provider store={configureStore(initialState)}>
