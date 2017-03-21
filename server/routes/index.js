@@ -5,7 +5,7 @@ const StockDataModel = require('../models/stocks');
 
 const path = process.cwd();
 
-module.exports = function(app, passport) {
+module.exports = function(app, passport, wss) {
   function sendIndex(req, res) {
     res.sendFile(`${path}/public/index.html`);
   }
@@ -83,6 +83,7 @@ module.exports = function(app, passport) {
                   res
                     .status(200)
                     .send(stock);
+                    wss.broadcast(stock);
                 } catch (err) {
                   console.log(err);
                   res
@@ -102,6 +103,7 @@ module.exports = function(app, passport) {
                     res
                       .status(200)
                       .send(stock);
+                    wss.broadcast(stock);
                   });
               }
             });
@@ -127,8 +129,9 @@ module.exports = function(app, passport) {
     });
 
   app
-    .route('/echo/websocket')
+    .route('/echo/websocket/')
     .get((req, res) => {
+      console.log('Request to /echo//websocket/', req);
       res.status(101).send();
     });
 };

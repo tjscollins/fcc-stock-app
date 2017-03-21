@@ -8,7 +8,7 @@ import configureStore from 'configureStore';
 
 /*----------API----------*/
 import {dateFormatter} from 'api';
-import WebSocket from 'ws';
+
 /*----------Components----------*/
 import Application from 'Application';
 
@@ -23,18 +23,21 @@ const initialState = {
   },
 };
 
-console.log(window.location);
-
-const ws = new WebSocket(`ws://localhost:8080/echo/websocket/`);
-ws.on('open', () => {
-  console.log('WebSocket connection open');
-  ws.send('Testing 1 2 3');
-});
-ws.on('message', (data, flags) => {
-  console.log('Message received: ', data, flags);
-});
+// console.log(window.location);
+const store = configureStore(initialState);
+const host = window.document.location.host.replace(/:.*/, '');
+const ws = new WebSocket('ws://' + host + ':8080');
+ws.onopen = function() {
+  // console.log('Connection open!');
+};
+ws.onmessage = function(event) {
+  // console.log('Message: ', event.data);
+  let stock = JSON.parse(event.data);
+  // console.log(stock);
+  store.dispatch(require('actions').updateStockData(stock.sym, stock.desc, stock.data));
+};
 
 ReactDOM.render(
-  <Provider store={configureStore(initialState)}>
+  <Provider store={store}>
     <Application />
   </Provider>, document.getElementById('react-app'));

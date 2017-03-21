@@ -31,27 +31,43 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-routes(app, passport);
 
 const port = process.env.PORT || /* istanbul ignore next: no need to test */ 8080;
 // app.listen(port, function() {
 //   console.log('Node.js listening on port ' + port + '...');
 // });
-const server = require('http').createServer(app);
-const wss = new WebSocket.Server({server});
+const server = require('http').createServer();
+const wss = new WebSocket.Server({server, perMessageDeflate: false});
 
 wss.on('connection', function connection(ws) {
-  const location = url.parse(ws.upgradeReq.url, true);
-  // You might use location.query.access_token to authenticate or share sessions
-  // or ws.upgradeReq.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
-  console.log('Connection established: ', ws);
-  ws.send('WebSocket connection established...');
-  ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
+  wss.on('connection', function(ws) {
+    console.log('Connected!');
+    // let id = setInterval(function() {
+    //   ws.send(JSON.stringify(process.memoryUsage()), function() { /* ignore errors */ });
+    // }, 1000);
+    // console.log('started client interval');
+    ws.on('close', function() {
+      // console.log('stopping client interval');
+      // clearInterval(id);
+    });
   });
 });
 
-server.listen(port);
+// Broadcast to all.
+wss.broadcast = function broadcast(data) {
+  console.log('Broadcasting', data);
+  wss.clients.forEach(function each(client) {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(data));
+    }
+  });
+};
+
+routes(app, passport, wss);
+server.on('request', app);
+server.listen(port, function() {
+  console.log('Listening on http://localhost:' + port);
+});
 
 module.exports = {
   app,
