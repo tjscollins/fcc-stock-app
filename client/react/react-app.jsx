@@ -34,7 +34,11 @@ ws.onmessage = function(event) {
   // console.log('Message: ', event.data);
   let stock = JSON.parse(event.data);
   // console.log(stock);
-  store.dispatch(require('actions').updateStockData(stock.sym, stock.desc, stock.data));
+  if(stock.displayed) {
+    store.dispatch(require('actions').updateStockData(stock.sym, stock.desc, stock.data));
+  } else {
+    store.dispatch(require('actions').removeStock(stock.sym));
+  }
 };
 
 ReactDOM.render(

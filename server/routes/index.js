@@ -125,6 +125,7 @@ module.exports = function(app, passport, wss) {
           res
             .status(200)
             .send({});
+          wss.broadcast(stock);
         });
     });
 
