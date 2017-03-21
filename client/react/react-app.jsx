@@ -26,7 +26,8 @@ const initialState = {
 // console.log(window.location);
 const store = configureStore(initialState);
 const host = window.document.location.host.replace(/:.*/, '');
-const ws = new WebSocket('ws://' + host + ':8080');
+const port = window.document.location.port
+const ws = new WebSocket('ws://' + host + ':' + port);
 ws.onopen = function() {
   // console.log('Connection open!');
 };
