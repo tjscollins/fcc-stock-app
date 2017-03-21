@@ -10,7 +10,7 @@ const WebSocket = require('ws');
 const url = require('url');
 
 require('dotenv').load();
-require('./server/config/passport').default(passport);
+// require('./server/config/passport').default(passport);
 
 const app = express();
 
@@ -22,14 +22,14 @@ app.use('/controllers', express.static(process.cwd() + '/server/controllers'));
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/common', express.static(process.cwd() + '/server/common'));
 
-app.use(session({
-  secret: 'secretClementine',
-  resave: false,
-  saveUninitialized: true,
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(session({
+//   secret: 'secretClementine',
+//   resave: false,
+//   saveUninitialized: true,
+// }));
+//
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 
 const port = process.env.PORT || /* istanbul ignore next: no need to test */ 8080;
